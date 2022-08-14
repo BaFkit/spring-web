@@ -1,7 +1,7 @@
-angular.module('app', ['ngStorage']).controller('indexController', function ($scope, $rootScope, $http, $localStorage) {
+angular.module('app', ['ngStorage']).controller('indexController', function ($scope, $rootScope, $http, $location, $localStorage) {
     const contextPath = 'http://localhost:8189/app/api/v1';
 
-    if(!$localStorage.cartName){
+    if (!$localStorage.cartName) {
         $localStorage.cartName = "cart_" + (Math.random() * 100);
     }
 
@@ -22,6 +22,7 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
             }
         }).then(function (response) {
             $scope.ProductsPage = response.data;
+            $scope.loadCart();
         });
     };
 
@@ -66,6 +67,20 @@ angular.module('app', ['ngStorage']).controller('indexController', function ($sc
         $http.post('http://localhost:8189/app/api/v1/carts', $localStorage.cartName)
             .then(function (response) {
                 $scope.Cart = response.data;
+            });
+    }
+
+    $scope.decreaseFromCart = function (productId) {
+        $http.post('http://localhost:8189/app/api/v1/carts/decrease/' + productId, $localStorage.cartName)
+            .then(function (response) {
+                $scope.loadCart();
+            });
+    }
+
+    $scope.deleteFromCart = function (productId) {
+        $http.post('http://localhost:8189/app/api/v1/carts/delete/' + productId, $localStorage.cartName)
+            .then(function (response) {
+                $scope.loadCart();
             });
     }
 

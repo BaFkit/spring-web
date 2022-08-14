@@ -33,10 +33,17 @@ public class CartService {
         }
     }
 
+    public void deleteFromCart(Long id, String cartName) {
+        getCurrentCart(cartName).removeProduct(id);
+    }
+
+    public void decreaseFromCart(Long id, String cartName) {
+        getCurrentCart(cartName).decreaseProduct(id);
+    }
+
     public void clear(String cartName){
         Cart cart = getCurrentCart(cartName);
         cart.clear();
         cacheManager.getCache("Cart").put(cartName, cart);
     }
-
 }
