@@ -87,12 +87,17 @@
             <td>Название товара</td>
             <td>Количество</td>
             <td>Цена</td>
+            <td>Действие</td>
         </tr>
         <tbody>
         <tr ng-repeat="item in Cart.items">
             <td>{{item.title}}</td>
             <td>{{item.quantity}}</td>
-            <td>{{item.pricePerProduct + ' x ' + item.quantity + ' = ' + item.price}}</td>
+            <td>{{item.pricePerProduct + ' x ' + item.quantity + ' = ' + item.price}}
+            <td>
+                <button class="btn btn-secondary" ng-click="decreaseFromCart(item.productId)">Уменьшить</button>
+                <button class="btn btn-danger" ng-click="deleteFromCart(item.productId)">Удалить</button>
+            </td>
         </tr>
         <tr>
             <td></td>
