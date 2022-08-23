@@ -18,6 +18,10 @@
                 templateUrl: 'orders/orders.html',
                 controller: 'ordersController'
             })
+            .when('/statistic', {
+                templateUrl: 'statistic/statistic.html',
+                controller: 'statisticController'
+            })
             .otherwise({
                 redirectTo: '/'
             });
