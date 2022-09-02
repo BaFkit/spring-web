@@ -18,7 +18,7 @@ import java.util.Optional;
 public class CartService {
 
     private final ProductsService productsService;
-    @Qualifier("cache")
+    @Qualifier("test")
     private final CacheManager cacheManager;
     @Value("${spring.cache.user.name}")
     private String CACHE_CART;
@@ -45,12 +45,18 @@ public class CartService {
         return cart;
     }
 
-    public void deleteFromCart(Long id, String cartName) {
-        getCurrentCart(cartName).removeProduct(id);
+    @CachePut(value = "Cart", key = "#cartName")
+    public Cart deleteFromCart(Long id, String cartName) {
+        Cart cart = getCurrentCart(cartName);
+        cart.removeProduct(id);
+        return cart;
     }
 
-    public void decreaseFromCart(Long id, String cartName) {
-        getCurrentCart(cartName).decreaseProduct(id);
+    @CachePut(value = "Cart", key = "#cartName")
+    public Cart decreaseFromCart(Long id, String cartName) {
+        Cart cart = getCurrentCart(cartName);
+        cart.decreaseProduct(id);
+        return cart;
     }
 
     @CachePut(value = "Cart", key = "#cartName")
