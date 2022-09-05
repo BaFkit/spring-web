@@ -1,8 +1,8 @@
 package com.geekbrains.spring.web.auth.controllers;
 
+import com.geekbrains.spring.web.api.exceptions.AppError;
 import com.geekbrains.spring.web.auth.dto.JwtRequest;
 import com.geekbrains.spring.web.auth.dto.JwtResponse;
-import com.geekbrains.spring.web.auth.exceptions.AppError;
 import com.geekbrains.spring.web.auth.services.UserService;
 import com.geekbrains.spring.web.auth.utils.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;

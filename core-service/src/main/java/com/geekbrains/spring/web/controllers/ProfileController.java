@@ -1,6 +1,6 @@
 package com.geekbrains.spring.web.controllers;
 
-import com.geekbrains.spring.web.dto.ProfileDto;
+import com.geekbrains.spring.web.api.dto.ProfileDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;

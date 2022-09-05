@@ -1,6 +1,6 @@
 package com.geekbrains.spring.web.converters;
 
-import com.geekbrains.spring.web.dto.ProductDto;
+import com.geekbrains.spring.web.api.dto.ProductDto;
 import com.geekbrains.spring.web.entities.Product;
 import org.springframework.stereotype.Component;
 

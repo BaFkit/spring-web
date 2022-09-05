@@ -1,8 +1,7 @@
-package com.geekbrains.spring.web.services;
+package com.geekbrains.spring.cart.services;
 
-import com.geekbrains.spring.web.dto.Cart;
-import com.geekbrains.spring.web.entities.Product;
-import com.geekbrains.spring.web.exceptions.ResourceNotFoundException;
+import com.geekbrains.spring.cart.dto.Cart;
+import com.geekbrains.spring.web.api.dto.ProductDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +9,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 
@@ -18,7 +18,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CartService {
 
-    private final ProductsService productsService;
+    private final RestTemplate restTemplate;
+
     @Qualifier("test")
     private final CacheManager cacheManager;
     @Value("${spring.cache.user.name}")
@@ -40,8 +41,8 @@ public class CartService {
     public Cart addProductByIdToCart(Long id, String cartName){
         Cart cart = getCurrentCart(cartName);
         if(!cart.addProductCount(id)){
-            Product product = productsService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Не удалось найти продукт"));
-            cart.addProduct(product);
+            ProductDto productDto = restTemplate.getForObject("http://localhost:8189/web-market-core/api/v1/products/" + id , ProductDto.class);
+            if(productDto != null) cart.addProduct(productDto);
         }
         return cart;
     }
