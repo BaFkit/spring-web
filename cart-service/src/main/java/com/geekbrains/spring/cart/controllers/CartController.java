@@ -1,7 +1,7 @@
-package com.geekbrains.spring.web.controllers;
+package com.geekbrains.spring.cart.controllers;
 
-import com.geekbrains.spring.web.dto.Cart;
-import com.geekbrains.spring.web.services.CartService;
+import com.geekbrains.spring.cart.dto.Cart;
+import com.geekbrains.spring.cart.services.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

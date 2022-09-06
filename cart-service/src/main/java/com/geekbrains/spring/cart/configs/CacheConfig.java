@@ -1,4 +1,4 @@
-package com.geekbrains.spring.web.configs;
+package com.geekbrains.spring.cart.configs;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;

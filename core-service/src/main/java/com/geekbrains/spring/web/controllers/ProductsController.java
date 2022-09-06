@@ -1,9 +1,9 @@
 package com.geekbrains.spring.web.controllers;
 
+import com.geekbrains.spring.web.api.dto.ProductDto;
+import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.converters.ProductConverter;
-import com.geekbrains.spring.web.dto.ProductDto;
 import com.geekbrains.spring.web.entities.Product;
-import com.geekbrains.spring.web.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.services.ProductsService;
 import com.geekbrains.spring.web.validators.ProductValidator;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class ProductsController {
             page = 1;
         }
         return productsService.findAll(minPrice, maxPrice, titlePart, page).map(
-                p -> productConverter.entityToDto(p)
+                productConverter::entityToDto
         );
     }
 

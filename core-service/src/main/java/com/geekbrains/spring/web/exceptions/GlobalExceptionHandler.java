@@ -1,5 +1,9 @@
 package com.geekbrains.spring.web.exceptions;
 
+import com.geekbrains.spring.web.api.exceptions.AppError;
+import com.geekbrains.spring.web.api.exceptions.FieldsValidationError;
+import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
+import com.geekbrains.spring.web.api.exceptions.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

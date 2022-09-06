@@ -1,4 +1,4 @@
-package com.geekbrains.spring.web.exceptions;
+package com.geekbrains.spring.web.api.exceptions;
 
 import lombok.Data;
 

@@ -1,6 +1,7 @@
-package com.geekbrains.spring.web.dto;
+package com.geekbrains.spring.cart.dto;
 
-import com.geekbrains.spring.web.entities.Product;
+import com.geekbrains.spring.web.api.dto.OrderItemDto;
+import com.geekbrains.spring.web.api.dto.ProductDto;
 import lombok.Data;
 import org.springframework.cache.CacheManager;
 
@@ -42,11 +43,11 @@ public class Cart {
         return false;
     }
 
-    public void addProduct(Product product){
-        if(addProductCount(product.getId())){
+    public void addProduct(ProductDto productDto){
+        if(addProductCount(productDto.getId())){
             return;
         }
-        items.add(new OrderItemDto(product));
+        items.add(new OrderItemDto(productDto));
         recalculate();
     }
 
