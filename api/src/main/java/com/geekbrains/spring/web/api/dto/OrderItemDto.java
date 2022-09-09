@@ -12,6 +12,9 @@ public class OrderItemDto {
         return productId;
     }
 
+    public OrderItemDto() {
+    }
+
     public void setProductId(Long productId) {
         this.productId = productId;
     }

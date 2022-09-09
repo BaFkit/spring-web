@@ -43,7 +43,7 @@ public class OrderService {
                 }).collect(Collectors.toList());
         order.setItems(items);
         orderRepository.save(order);
-        restTemplate.postForLocation("http://localhost:8191/web-market-cart/api/v1/carts", cartName);
+        //restTemplate.postForLocation("http://localhost:8191/web-market-cart/api/v1/carts/clear", cartName);
     }
 
     public List<Order> findOrdersByUsername(String username) {
