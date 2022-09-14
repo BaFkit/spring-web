@@ -1,6 +1,6 @@
 package com.geekbrains.spring.web.services;
 
-import com.geekbrains.spring.web.api.dto.Cart;
+import com.geekbrains.spring.web.api.dto.CartDto;
 import com.geekbrains.spring.web.api.dto.OrderDetailsDto;
 import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.entities.Order;
@@ -24,8 +24,10 @@ public class OrderService {
     private final OrderRepository orderRepository;
 
     @Transactional
-    public void createOrder(String username, OrderDetailsDto orderDetailsDto, String cartName){
-        Cart currentCart = restTemplate.postForObject("http://localhost:8191/web-market-cart/api/v1/carts", cartName, Cart.class);
+    public void createOrder(String username, OrderDetailsDto orderDetailsDto, CartDto currentCart){
+
+//        Cart currentCart = restTemplate.postForObject("http://localhost:8191/web-market-cart/api/v1/carts", cartName, Cart.class);
+
         Order order = new Order();
         order.setAddress(orderDetailsDto.getAddress());
         order.setPhone(orderDetailsDto.getPhone());
@@ -43,7 +45,8 @@ public class OrderService {
                 }).collect(Collectors.toList());
         order.setItems(items);
         orderRepository.save(order);
-        //restTemplate.postForLocation("http://localhost:8191/web-market-cart/api/v1/carts/clear", cartName);
+
+//        restTemplate.postForLocation("http://localhost:8191/web-market-cart/api/v1/carts/clear", cartName);
     }
 
     public List<Order> findOrdersByUsername(String username) {

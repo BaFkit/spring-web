@@ -12,7 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootTest
-public class CartTest {
+public class CartDtoTest {
 
     @Autowired
     private CartService cartService;
