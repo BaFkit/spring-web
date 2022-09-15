@@ -1,6 +1,7 @@
-package com.geekbrains.spring.web.kafka;
+package com.geekbrains.spring.web.configs;
 
 import com.geekbrains.spring.web.api.dto.CartDto;
+import com.geekbrains.spring.web.api.dto.OrderDto;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -41,13 +42,13 @@ public class KafkaConfig {
     }
 
     @Bean
-    public ConsumerFactory<Long, CartDto> consumerFactory(){
+    public ConsumerFactory<Long, OrderDto> consumerFactory(){
         return new DefaultKafkaConsumerFactory<>(consumerConfig());
     }
 
     @Bean
     public KafkaListenerContainerFactory<?> kafkaListenerContainerFactory(){
-        ConcurrentKafkaListenerContainerFactory<Long, CartDto> factory =
+        ConcurrentKafkaListenerContainerFactory<Long, OrderDto> factory =
                 new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(consumerFactory());
         return factory;

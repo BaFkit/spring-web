@@ -22,3 +22,4 @@ spring:
     consumer:
       group-id: 2
     bootstrap-servers: localhost:9092
+    topic: "order_topic"

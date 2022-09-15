@@ -1,6 +1,8 @@
 package com.geekbrains.spring.cart.tests;
 
+import com.geekbrains.spring.cart.dto.Cart;
 import com.geekbrains.spring.cart.services.CartService;
+import com.geekbrains.spring.web.api.dto.OrderDto;
 import com.geekbrains.spring.web.api.dto.ProductDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,19 +11,27 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.cache.CacheManager;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootTest
-public class CartDtoTest {
+public class CartTest {
 
     @Autowired
     private CartService cartService;
-
+    @MockBean
+    private CacheManager cacheManager;
+    @MockBean
+    private KafkaTemplate<Long, OrderDto> kafkaTemplate;
     @MockBean
     private RestTemplate restTemplate;
 
     @BeforeEach
     public void initCart() {
+        cartService = new CartService(restTemplate, kafkaTemplate, cacheManager);
+        Mockito.when(cacheManager.getCache("Cart")
+                .get(Mockito.anyString(), Cart.class)).thenReturn(new Cart());
         cartService.clear("test_cart2");
     }
 

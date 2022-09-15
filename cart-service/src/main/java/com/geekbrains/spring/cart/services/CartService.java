@@ -1,6 +1,8 @@
 package com.geekbrains.spring.cart.services;
 
 import com.geekbrains.spring.cart.dto.Cart;
+import com.geekbrains.spring.web.api.dto.OrderDetailsDto;
+import com.geekbrains.spring.web.api.dto.OrderDto;
 import com.geekbrains.spring.web.api.dto.ProductDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -8,22 +10,25 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
-
 
 @Service
 @RequiredArgsConstructor
 public class CartService {
 
     private final RestTemplate restTemplate;
+    private final KafkaTemplate<Long, OrderDto> kafkaTemplate;
 
     @Qualifier("test")
     private final CacheManager cacheManager;
     @Value("${spring.cache.user.name}")
     private String CACHE_CART;
+    @Value("${spring.kafka.topic}")
+    private String topic;
     private Cart cart;
 
 
@@ -66,5 +71,17 @@ public class CartService {
         Cart cart = getCurrentCart(cartName);
         cart.clear();
         return cart;
+    }
+
+    public void createOrder(String username, OrderDetailsDto orderDetailsDto, String cartName) {
+        Cart currentCart = getCurrentCart(cartName);
+        OrderDto order = new OrderDto();
+        order.setAddress(orderDetailsDto.getAddress());
+        order.setPhone(orderDetailsDto.getPhone());
+        order.setUsername(username);
+        order.setTotalPrice(currentCart.getTotalPrice());
+        order.setItemDtoList(currentCart.getItems());
+        currentCart.clear();
+        kafkaTemplate.send(topic, order);
     }
 }

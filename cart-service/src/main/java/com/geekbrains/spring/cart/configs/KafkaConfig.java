@@ -1,12 +1,13 @@
-package com.geekbrains.spring.cart.kafka;
+package com.geekbrains.spring.cart.configs;
 
-import com.geekbrains.spring.web.api.dto.CartDto;
+import com.geekbrains.spring.web.api.dto.OrderDto;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.LongSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.*;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
 import java.util.HashMap;
@@ -31,12 +32,19 @@ public class KafkaConfig {
     }
 
     @Bean
-    public ProducerFactory<Long, CartDto> producerFactory(){
+    public JsonDeserializer jsonDeserializer(){
+        JsonDeserializer jsonDeserializer = new JsonDeserializer();
+        jsonDeserializer.addTrustedPackages("*");
+        return jsonDeserializer;
+    }
+
+    @Bean
+    public ProducerFactory<Long, OrderDto> producerFactory(){
         return new DefaultKafkaProducerFactory<>(producerConfig());
     }
 
     @Bean
-    public KafkaTemplate<Long, CartDto> kafkaTemplate(){
+    public KafkaTemplate<Long, OrderDto> kafkaTemplate(){
         return new KafkaTemplate<>(producerFactory());
     }
 }
