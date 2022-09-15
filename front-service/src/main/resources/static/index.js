@@ -84,7 +84,7 @@ angular.module('market-front').controller('indexController', function ($scope, $
     };
 
     $scope.showCurrentUserInfo = function () {
-        $http.get('http://localhost:5555/gateway/api/v1/profile')
+        $http.get('http://localhost:5555/core/api/v1/profile')
             .then(function successCallback(response) {
                 alert('MY NAME IS: ' + response.data.username);
             }, function errorCallback(response) {

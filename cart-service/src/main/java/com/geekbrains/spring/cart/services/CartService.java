@@ -1,5 +1,6 @@
 package com.geekbrains.spring.cart.services;
 
+import com.geekbrains.spring.cart.api.CoreApi;
 import com.geekbrains.spring.cart.dto.Cart;
 import com.geekbrains.spring.web.api.dto.OrderDetailsDto;
 import com.geekbrains.spring.web.api.dto.OrderDto;
@@ -12,7 +13,6 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
 
@@ -20,8 +20,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CartService {
 
-    private final RestTemplate restTemplate;
     private final KafkaTemplate<Long, OrderDto> kafkaTemplate;
+    private final CoreApi coreApi;
 
     @Qualifier("test")
     private final CacheManager cacheManager;
@@ -46,7 +46,7 @@ public class CartService {
     public Cart addProductByIdToCart(Long id, String cartName){
         Cart cart = getCurrentCart(cartName);
         if(!cart.addProductCount(id)){
-            ProductDto productDto = restTemplate.getForObject("http://localhost:8189/web-market-core/api/v1/products/" + id , ProductDto.class);
+            ProductDto productDto = coreApi.getProductById(id);
             if(productDto != null) cart.addProduct(productDto);
         }
         return cart;
