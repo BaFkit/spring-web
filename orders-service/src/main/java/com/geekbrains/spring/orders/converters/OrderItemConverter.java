@@ -1,14 +1,14 @@
-package com.geekbrains.spring.web.converters;
+package com.geekbrains.spring.orders.converters;
 
+import com.geekbrains.spring.orders.entities.OrderItem;
 import com.geekbrains.spring.web.api.dto.OrderItemDto;
-import com.geekbrains.spring.web.entities.OrderItem;
 import org.springframework.stereotype.Component;
 
 @Component
 public class OrderItemConverter {
 
     public OrderItemDto entityToDto(OrderItem orderItem){
-        return new OrderItemDto(orderItem.getProduct().getId(), orderItem.getProduct().getTitle(),
+        return new OrderItemDto(orderItem.getProductId(), orderItem.getProductTitle(),
                 orderItem.getQuantity(), orderItem.getPricePerProduct(), orderItem.getPrice());
     }
 }

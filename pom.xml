@@ -10,6 +10,7 @@
 		<module>auth-service</module>
         <module>api</module>
 		<module>cart-service</module>
+		<module>orders-service</module>
 	</modules>
 
 	<parent>

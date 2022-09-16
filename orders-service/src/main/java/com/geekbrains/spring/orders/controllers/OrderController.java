@@ -1,10 +1,13 @@
-package com.geekbrains.spring.web.controllers;
+package com.geekbrains.spring.orders.controllers;
 
+import com.geekbrains.spring.orders.converters.OrderConverter;
+import com.geekbrains.spring.orders.services.OrderService;
 import com.geekbrains.spring.web.api.dto.OrderDto;
-import com.geekbrains.spring.web.converters.OrderConverter;
-import com.geekbrains.spring.web.services.OrderService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;

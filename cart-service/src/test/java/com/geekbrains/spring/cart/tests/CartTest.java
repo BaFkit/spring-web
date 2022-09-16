@@ -1,5 +1,6 @@
 package com.geekbrains.spring.cart.tests;
 
+import com.geekbrains.spring.cart.api.CoreApi;
 import com.geekbrains.spring.cart.dto.Cart;
 import com.geekbrains.spring.cart.services.CartService;
 import com.geekbrains.spring.web.api.dto.OrderDto;
@@ -25,11 +26,11 @@ public class CartTest {
     @MockBean
     private KafkaTemplate<Long, OrderDto> kafkaTemplate;
     @MockBean
-    private RestTemplate restTemplate;
+    private CoreApi coreApi;
 
     @BeforeEach
     public void initCart() {
-        cartService = new CartService(restTemplate, kafkaTemplate, cacheManager);
+        cartService = new CartService(kafkaTemplate, coreApi, cacheManager);
         Mockito.when(cacheManager.getCache("Cart")
                 .get(Mockito.anyString(), Cart.class)).thenReturn(new Cart());
         cartService.clear("test_cart2");
@@ -42,13 +43,13 @@ public class CartTest {
         productDtoMilk.setTitle("Milk");
         productDtoMilk.setPrice(100);
 
-        Mockito.doReturn(productDtoMilk).when(restTemplate).getForObject("http://localhost:8189/web-market-core/api/v1/products/" + 10L, ProductDto.class);
+        Mockito.doReturn(productDtoMilk).when(coreApi).getProductById(10L);
 
         cartService.addProductByIdToCart(10L, "test_cart2");
         cartService.addProductByIdToCart(10L, "test_cart2");
         cartService.addProductByIdToCart(10L, "test_cart2");
 
-        Mockito.verify(restTemplate, Mockito.times(1)).getForObject("http://localhost:8189/web-market-core/api/v1/products/" + 10L, ProductDto.class);
+        Mockito.verify(coreApi, Mockito.times(1)).getProductById(10L);
         Assertions.assertEquals(1, cartService.getCurrentCart("test_cart2").getItems().size());
     }
 
@@ -70,9 +71,9 @@ public class CartTest {
         productDtoBread.setTitle("Bread");
         productDtoBread.setPrice(20);
 
-        Mockito.doReturn(productDtoMilk).when(restTemplate).getForObject("http://localhost:8189/web-market-core/api/v1/products/" + 10L, ProductDto.class);
-        Mockito.doReturn(productDtoCheese).when(restTemplate).getForObject("http://localhost:8189/web-market-core/api/v1/products/" + 11L, ProductDto.class);
-        Mockito.doReturn(productDtoBread).when(restTemplate).getForObject("http://localhost:8189/web-market-core/api/v1/products/" + 12L, ProductDto.class);
+        Mockito.doReturn(productDtoMilk).when(coreApi).getProductById(10L);
+        Mockito.doReturn(productDtoCheese).when(coreApi).getProductById(10L);
+        Mockito.doReturn(productDtoBread).when(coreApi).getProductById(10L);
 
         cartService.addProductByIdToCart(10L, "test_cart2");
         cartService.addProductByIdToCart(11L, "test_cart2");

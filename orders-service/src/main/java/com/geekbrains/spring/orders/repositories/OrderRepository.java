@@ -1,6 +1,6 @@
-package com.geekbrains.spring.web.repositories;
+package com.geekbrains.spring.orders.repositories;
 
-import com.geekbrains.spring.web.entities.Order;
+import com.geekbrains.spring.orders.entities.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

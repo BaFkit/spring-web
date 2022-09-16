@@ -1,4 +1,4 @@
-package com.geekbrains.spring.web.entities;
+package com.geekbrains.spring.orders.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,9 +20,9 @@ public class OrderItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    private Long productId;
+
+    private String productTitle;
 
     private Integer quantity;
 
