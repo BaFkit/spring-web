@@ -1,6 +1,9 @@
 package com.geekbrains.spring.cart.configs;
 
+import com.geekbrains.spring.cart.properties.CacheProperties;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
@@ -22,14 +25,14 @@ import java.util.Set;
 @Configuration
 @EnableCaching
 @EnableRedisRepositories
+@EnableConfigurationProperties(CacheProperties.class)
+@RequiredArgsConstructor
 public class CacheConfig {
+
+    private final CacheProperties cacheProperties;
 
     @Value("${spring.cache.default.expire-time}")
     private int defaultExpireTime;
-    @Value("${spring.cache.user.expire-time}")
-    private int userCacheExpireTime;
-    @Value("${spring.cache.user.name}")
-    private String userCacheName;
 
     @Bean(name = "cache")
     public CacheManager cacheManager(RedisConnectionFactory lettuceConnectionFactory) {
@@ -40,10 +43,10 @@ public class CacheConfig {
                 .disableCachingNullValues();
 
         Set<String> cacheNames = new HashSet<>();
-        cacheNames.add(userCacheName);
+        cacheNames.add(cacheProperties.getName());
 
         Map<String, RedisCacheConfiguration> configMap = new HashMap<>();
-        configMap.put(userCacheName, defaultCacheConfig.entryTtl(Duration.ofSeconds(userCacheExpireTime)));
+        configMap.put(cacheProperties.getName(), defaultCacheConfig.entryTtl(Duration.ofSeconds(cacheProperties.getExpireTime())));
 
         RedisCacheManager cacheManager = RedisCacheManager.builder(lettuceConnectionFactory)
                 .cacheDefaults(defaultCacheConfig)
