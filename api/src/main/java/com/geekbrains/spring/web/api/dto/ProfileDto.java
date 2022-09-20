@@ -1,6 +1,7 @@
 package com.geekbrains.spring.web.api.dto;
 
 public class ProfileDto {
+
     private String username;
 
     public ProfileDto() {
