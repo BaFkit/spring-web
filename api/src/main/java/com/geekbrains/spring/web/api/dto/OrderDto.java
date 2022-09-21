@@ -1,5 +1,7 @@
 package com.geekbrains.spring.web.api.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.List;
 
 public class OrderDto {
@@ -7,7 +9,9 @@ public class OrderDto {
     private String username;
     private List<OrderItemDto> itemDtoList;
     private Integer totalPrice;
+    @Schema(description = "Customer address")
     private String address;
+    @Schema(description = "Customer phone")
     private String phone;
 
     public Long getId() {

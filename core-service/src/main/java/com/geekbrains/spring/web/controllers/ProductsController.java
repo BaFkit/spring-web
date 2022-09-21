@@ -6,6 +6,8 @@ import com.geekbrains.spring.web.converters.ProductConverter;
 import com.geekbrains.spring.web.entities.Product;
 import com.geekbrains.spring.web.services.ProductsService;
 import com.geekbrains.spring.web.validators.ProductValidator;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -13,12 +15,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
+@Tag(name = "Products controller", description = "product receiving controller")
 public class ProductsController {
     private final ProductsService productsService;
     private final ProductConverter productConverter;
     private final ProductValidator productValidator;
 
     @GetMapping
+    @Operation(summary = "Get product page")
     public Page<ProductDto> getAllProducts(
             @RequestParam(name = "p", defaultValue = "1") Integer page,
             @RequestParam(name = "min_price", required = false) Integer minPrice,
@@ -34,12 +38,14 @@ public class ProductsController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Get product by id")
     public ProductDto getProductById(@PathVariable Long id) {
         Product product = productsService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Product not found, id: " + id));
         return productConverter.entityToDto(product);
     }
 
     @PostMapping
+    @Operation(summary = "Add a new product")
     public ProductDto saveNewProduct(@RequestBody ProductDto productDto) {
         productValidator.validate(productDto);
         Product product = productConverter.dtoToEntity(productDto);
@@ -48,6 +54,7 @@ public class ProductsController {
     }
 
     @PutMapping
+    @Operation(summary = "Change product")
     public ProductDto updateProduct(@RequestBody ProductDto productDto) {
         productValidator.validate(productDto);
         Product product = productsService.update(productDto);
@@ -55,6 +62,7 @@ public class ProductsController {
     }
 
     @DeleteMapping("/{id}")
+    @Operation(summary = "Delete product by id")
     public void deleteById(@PathVariable Long id) {
         productsService.deleteById(id);
     }
