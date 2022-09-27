@@ -5,6 +5,7 @@ create table orders
     total_price int          not null,
     address     varchar,
     phone       varchar(255),
+    status      boolean,
     created_at  timestamp,
     updated_at  timestamp
 );

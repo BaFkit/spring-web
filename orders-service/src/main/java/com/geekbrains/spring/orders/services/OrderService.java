@@ -4,6 +4,7 @@ import com.geekbrains.spring.orders.entities.Order;
 import com.geekbrains.spring.orders.entities.OrderItem;
 import com.geekbrains.spring.orders.repositories.OrderRepository;
 import com.geekbrains.spring.web.api.dto.OrderDto;
+import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -51,5 +52,9 @@ public class OrderService {
         } catch (Exception e) {
             return new ArrayList<>();
         }
+    }
+
+    public Order findById(Long orderId) {
+        return orderRepository.findById(orderId).orElseThrow(() -> new ResourceNotFoundException("Order not found"));
     }
 }

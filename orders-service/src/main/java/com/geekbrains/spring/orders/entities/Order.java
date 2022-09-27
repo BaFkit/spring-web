@@ -32,6 +32,8 @@ public class Order {
 
     private String phone;
 
+    private Boolean status;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
